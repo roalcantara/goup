@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+	],
+	"settings": {
+		"yaml.schemas": {
+				"https://taskfile.dev/schema.json": "file:///**/*/Taskfile.yml"
+		},
+		"taskfile.taskExplorerAction": "open",
+		"go-template.languages": [
+				"yaml",
+				"yml",
+		],
+    "direnv.path.executable": "/usr/local/bin/direnv",
+	}
+}

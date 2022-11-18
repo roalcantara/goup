@@ -1,0 +1,79 @@
+# Taskfile for go projects
+# https://taskfile.dev/usage/
+version: 3
+
+tasks:
+  run:
+    desc: Runs main.go
+    cmds:
+      - go run main.go
+  run:all:
+    desc: Runs all go files (*.go)
+    cmds:
+      - go run *.go
+  vet:
+    desc: Examines Go source code and reports suspicious constructs
+    cmds:
+      - go vet ./...
+    deps:
+      - fmt
+  build:
+    desc: Build compiles the packages named by the import paths, along with their dependencies, but it does not install the results
+    cmds:
+      - go build ./...
+    deps:
+      - vet
+  test:
+    desc: Tests and prints a result summary
+    cmds:
+      - go test -v ./...
+  test:benchmark:
+    desc: Runs all tests and benchmarks it
+    cmds:
+      - go test -bench=./...
+  test:race:
+    desc: Runs all tests and identifies race conditions for goroutines
+    cmds:
+      - go test -race=./...
+  test:coverage:
+    desc: Runs all tests with coverage reporting
+    cmds:
+      - go test -cover ./...
+  env:
+    desc: Shows environment variables about the current Go environment
+    cmds:
+      - go env
+  env:root:
+    desc: Shows the root of the Go tree
+    cmds:
+      - go env GOROOT
+  env:arch:
+    desc: Shows the target architecture for the build
+    cmds:
+      - go env GOARCH
+  env:docs:
+    desc: Show the documentation for each of the environment variables
+    cmds:
+      - go help environmental
+  fmt:
+    desc: Runs 'gofmt -l -w' and prints modified files
+    cmds:
+      - go fmt ./...
+  lint:
+    desc: Runs GolangCI-Lint recursively
+    cmds:
+      - golangci-lint run ./...
+    deps:
+      - fmt
+  deps:
+    desc: List the complete set of dependencies
+    cmds:
+      - go list -f {{ .Imports }}
+  deps:transitives:
+    desc: List the complete set of transitive dependencies
+    cmds:
+      - go list -f {{ .Deps }}
+  deps:check:
+    desc: Checks for updates to dependencies and sub-dependencies
+    cmds:
+      - go list -m -u all
